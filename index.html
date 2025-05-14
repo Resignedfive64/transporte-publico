@@ -42,57 +42,90 @@
   </style>
 </head>
 <body>
+
+
+
+      </form>
+    </div>
+  </div>
+</div>
+
 <div id="container">
   <div id="sidebar">
-    <h2 class="text-center">Cotizador de Transporte</h2>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <img src="img/logo.png" alt="Logo ViajaSeguro" style="max-width: 150px; height: auto;">
+    </div>
+    <h2>Cotizador de Renta de Transporte</h2>
     <label for="origin">Dirección de origen:</label>
     <input type="text" id="origin" placeholder="Ej. Zacatecas, Zac.">
+
     <label for="destination">Dirección de destino:</label>
     <input type="text" id="destination" placeholder="Ej. Monterrey, NL">
+
     <label for="vehicle">Tipo de unidad:</label>
     <select id="vehicle" onchange="showVehicleImage(); showVehicleDescription();">
       <option value="" disabled selected>Seleccione una opción</option>
       <option value="sprinter">Sprinter</option>
       <option value="camion">Camión Turístico</option>
     </select>
+
     <div id="vehicle-description" class="mb-2 text-muted"></div>
     <div class="vehicle-images">
       <p id="label-sprinter">Imágenes de Sprinter</p>
+      <img id="img-sprinter-1" src="img/sprinter-exterior.png" alt="Sprinter Exterior">
+      <img id="img-sprinter-2" src="img/sprinter-interior.png" alt="Sprinter Interior">
       <p id="label-camion">Imágenes de Camión Turístico</p>
+      <img id="img-camion-1" src="img/camion-exterior.png" alt="Camión Exterior">
+      <img id="img-camion-2" src="img/camion-interior.png" alt="Camión Interior">
     </div>
+
     <div class="d-flex gap-2 mb-2">
       <button id="btn-sencillo" class="btn btn-outline-primary w-50 trip-type-btn" type="button" onclick="setTripType('sencillo')">Viaje sencillo</button>
       <button id="btn-redondo" class="btn btn-outline-primary w-50 trip-type-btn" type="button" onclick="setTripType('redondo')">Viaje redondo</button>
     </div>
     <input type="hidden" id="tripType" value="">
+
     <label for="startDate">Fecha de ida:</label>
     <input type="date" id="startDate">
     <div id="endDateContainer">
       <label for="endDate">Fecha de regreso:</label>
       <input type="date" id="endDate">
     </div>
-    <label for="email">Correo electrónico:</label>
-    <input type="email" id="email" required>
-    <button class="btn btn-primary" onclick="calculateRoute()"><i class="fas fa-calculator"></i> Calcular Costo</button>
-    <div id="output" class="mt-3"></div>
-    <button class="btn btn-outline-secondary" onclick="downloadPDF()"><i class="fas fa-file-pdf"></i> Descargar Cotización en PDF</button>
+
+    <label for="email">Correo electrónico para recibir la cotización:</label>
+    <input type="email" id="email" placeholder="ejemplo@correo.com" required>
+    <button class="btn btn-primary" onclick="calculateRoute()">
+      <i class="fas fa-calculator"></i> Calcular Costo
+    </button>
+
+    <div id="output"></div>
+    <button class="btn btn-outline-secondary" onclick="downloadPDF()">
+      <i class="fas fa-file-pdf"></i> Descargar Cotización en PDF
+    </button>
     <p id="formStatus"></p>
   </div>
   <div id="map"></div>
 </div>
+
 <script>
 function showVehicleDescription() {
   const vehicle = document.getElementById('vehicle').value;
   const description = document.getElementById('vehicle-description');
   if (vehicle === 'sprinter') {
-    description.innerHTML = '<strong>Sprinter:</strong> Capacidad máxima: 20 personas.';
+    description.innerHTML = '<strong>Sprinter:</strong> Ideal para traslados pequeños. Capacidad máxima: 20 personas.';
   } else if (vehicle === 'camion') {
-    description.innerHTML = '<strong>Camión Turístico:</strong> Capacidad máxima: 38 pasajeros.';
+    description.innerHTML = '<strong>Camión Turístico:</strong> Vehículo amplio y cómodo. Capacidad máxima: 38 pasajeros.';
   } else {
     description.innerHTML = '';
   }
 }
-let map, markers = [], bounds, directionsService, directionsRenderer;
+
+let map;
+let markers = [];
+let bounds;
+let directionsService;
+let directionsRenderer;
+
 function initMap() {
   const originInput = document.getElementById('origin');
   const destinationInput = document.getElementById('destination');
@@ -107,6 +140,7 @@ function initMap() {
   directionsRenderer = new google.maps.DirectionsRenderer();
   directionsRenderer.setMap(map);
 }
+
 function setTripType(tipo) {
   const endDateContainer = document.getElementById('endDateContainer');
   const tripButtons = document.querySelectorAll('.trip-type-btn');
@@ -115,11 +149,28 @@ function setTripType(tipo) {
   document.getElementById('btn-' + tipo).classList.add('active');
   endDateContainer.style.display = tipo === 'redondo' ? 'block' : 'none';
 }
+
+function showVehicleImage() {
+  const vehicle = document.getElementById('vehicle').value;
+  const sprinterVisible = vehicle === 'sprinter';
+  const camionVisible = vehicle === 'camion';
+  document.getElementById('img-sprinter-1').style.display = sprinterVisible ? 'block' : 'none';
+  document.getElementById('img-sprinter-2').style.display = sprinterVisible ? 'block' : 'none';
+  document.getElementById('label-sprinter').style.display = sprinterVisible ? 'block' : 'none';
+  document.getElementById('img-camion-1').style.display = camionVisible ? 'block' : 'none';
+  document.getElementById('img-camion-2').style.display = camionVisible ? 'block' : 'none';
+  document.getElementById('label-camion').style.display = camionVisible ? 'block' : 'none';
+}
+
 function calculateRoute() {
   const tripType = document.getElementById('tripType').value;
   const isRoundTrip = tripType === 'redondo';
   const email = document.getElementById('email').value;
-  if (!email) return alert('Ingrese su correo electrónico');
+  if (!email) {
+    document.getElementById('formStatus').innerText = 'Por favor, ingrese su correo electrónico antes de calcular.';
+    document.getElementById('email').focus();
+    return;
+  }
   const origin = document.getElementById('origin').value;
   const destination = document.getElementById('destination').value;
   const vehicle = document.getElementById('vehicle').value;
@@ -146,12 +197,14 @@ function calculateRoute() {
         totalDistance += route.legs[i].distance.value;
       }
       const distanceKm = totalDistance / 1000;
-      let rate = vehicle === 'sprinter' ? 18 : 28;
+      let rate = 0;
+      if (vehicle === 'sprinter') rate = 18;
+      else if (vehicle === 'camion') rate = 28;
       const totalKmCost = distanceKm * rate;
       const roundedKmCost = Math.round(totalKmCost / 100) * 100;
       const totalCost = roundedKmCost + dailyCost;
       document.getElementById('output').innerHTML =
-        `<p><strong>Duración:</strong> ${route.legs[0].duration.text}</p>
+        `<p><strong>Duración aproximada:</strong> ${route.legs[0].duration.text}</p>
          <p><strong>Total estimado:</strong> $${totalCost.toFixed(2)} MXN</p>
          <p class='text-success'><i class='fas fa-check-circle'></i> Cotización enviada correctamente a ${email}</p>`;
       showMarkers(route.legs[0].start_location, route.legs[route.legs.length - 1].end_location);
@@ -160,18 +213,26 @@ function calculateRoute() {
     }
   });
 }
-function showMarkers(start, end) {
+
+function showMarkers(startLocation, endLocation) {
   clearMarkers();
-  bounds.extend(start); bounds.extend(end);
-  const o = new google.maps.Marker({ map, position: start, label: 'O' });
-  const d = new google.maps.Marker({ map, position: end, label: 'D' });
-  markers.push(o); markers.push(d);
+  bounds.extend(startLocation);
+  bounds.extend(endLocation);
+  const originMarker = new google.maps.Marker({ map, position: startLocation, label: 'O' });
+  const destinationMarker = new google.maps.Marker({ map, position: endLocation, label: 'D' });
+  markers.push(originMarker);
+  markers.push(destinationMarker);
   map.fitBounds(bounds);
 }
+
 function clearMarkers() {
-  for (let i = 0; i < markers.length; i++) markers[i].setMap(null);
-  markers = []; bounds = new google.maps.LatLngBounds();
+  for (let i = 0; i < markers.length; i++) {
+    markers[i].setMap(null);
+  }
+  markers = [];
+  bounds = new google.maps.LatLngBounds();
 }
+
 function downloadPDF() {
   const outputContent = document.getElementById('output').innerHTML;
   const origin = document.getElementById('origin').value;
@@ -180,17 +241,20 @@ function downloadPDF() {
   const startDate = document.getElementById('startDate').value;
   const endDate = document.getElementById('endDate').value;
   const email = document.getElementById('email').value;
-  const win = window.open('', '_blank');
-  win.document.write('<html><head><title>Cotización</title></head><body style="font-family:Arial;">');
-  win.document.write('<h2 style="text-align:center">Cotización de Transporte</h2>');
-  win.document.write('<p><strong>Origen:</strong> ' + origin + '</p>');
-  win.document.write('<p><strong>Destino:</strong> ' + destination + '</p>');
-  win.document.write('<p><strong>Unidad:</strong> ' + vehicle + '</p>');
-  win.document.write('<p><strong>Fechas:</strong> ' + startDate + ' al ' + endDate + '</p>');
-  win.document.write('<p><strong>Correo:</strong> ' + email + '</p><hr>');
-  win.document.write(outputContent);
-  win.document.write('</body></html>');
-  win.document.close(); win.print();
+  const ventana = window.open('', '_blank');
+  ventana.document.write('<html><head><title>Cotización</title></head><body style="font-family:Arial,sans-serif;">');
+  ventana.document.write('<div style="text-align:center;margin-bottom:20px;"><img src="img/logo.png" alt="Logo" style="max-width:150px;"></div>');
+  ventana.document.write('<h2 style="text-align:center">Cotización de Transporte</h2>');
+  ventana.document.write('<p><strong>Origen:</strong> ' + origin + '</p>');
+  ventana.document.write('<p><strong>Destino:</strong> ' + destination + '</p>');
+  ventana.document.write('<p><strong>Tipo de unidad:</strong> ' + vehicle + '</p>');
+  ventana.document.write('<p><strong>Fechas del viaje:</strong> ' + startDate + ' al ' + endDate + '</p>');
+  ventana.document.write('<p><strong>Correo del cliente:</strong> ' + email + '</p>');
+  ventana.document.write('<hr>');
+  ventana.document.write(outputContent);
+  ventana.document.write('</body></html>');
+  ventana.document.close();
+  ventana.print();
 }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
