@@ -10,7 +10,11 @@
       --secondary-color: #f4f4f4;
       --text-color: #333;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       color: var(--text-color);
@@ -20,8 +24,9 @@
     header {
       background: var(--primary-color);
       color: white;
-      padding: 1.5rem 2rem;
+      padding: 1rem;
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
@@ -32,15 +37,17 @@
       gap: 1rem;
     }
     .logo-titulo img {
-      height: 80px;
+      height: 60px;
     }
     header h1 {
-      font-size: 1.8rem;
+      font-size: 1.5rem;
     }
     nav ul {
       list-style: none;
       display: flex;
-      gap: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding-top: 1rem;
     }
     nav ul li a {
       color: white;
@@ -52,13 +59,13 @@
       color: #ddd;
     }
     main {
-      padding: 3rem 2rem;
+      padding: 2rem 1rem;
       max-width: 1000px;
       margin: 0 auto;
     }
     section {
       background: var(--secondary-color);
-      padding: 2rem;
+      padding: 1.5rem;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.05);
       margin-bottom: 2rem;
@@ -66,9 +73,37 @@
     h2 {
       color: var(--primary-color);
       margin-bottom: 1rem;
+      font-size: 1.4rem;
     }
     ul li {
       margin-bottom: 0.5rem;
+    }
+    .vehicle-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .vehicle-gallery img {
+      height: 100px;
+      background: transparent;
+      max-width: 100%;
+    }
+    .testimonial-carousel {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 1rem;
+      padding: 1rem 0;
+    }
+    .testimonial {
+      min-width: 250px;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      scroll-snap-align: center;
     }
     footer {
       background: #f9f9f9;
@@ -90,6 +125,20 @@
       font-size: 24px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     }
+    @media (max-width: 600px) {
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .logo-titulo {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      nav ul {
+        flex-direction: column;
+        padding-left: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -108,6 +157,11 @@
   </header>
 
   <main>
+    <div class="vehicle-gallery">
+      <img src="https://resignedfive64.github.io/transporte-publico/img/camion-exterior.png" alt="Unidad 1">
+      <img src="https://resignedfive64.github.io/transporte-publico/img/sprinter-exterior.png" alt="Unidad 2">
+    </div>
+
     <section>
       <h2>¿Por qué elegir Viaja Seguro?</h2>
       <p>En <strong>Viaja Seguro</strong>, tu tranquilidad es nuestra prioridad. Somos la mejor opción en transporte grupal por nuestra experiencia, atención personalizada y flota moderna que garantiza comodidad y seguridad en cada kilómetro.</p>
@@ -118,6 +172,36 @@
         <li>✅ Soporte 24/7 para cualquier eventualidad</li>
       </ul>
       <p>Viaja cómodo. Viaja seguro. ¡Viaja con nosotros!</p>
+    </section>
+
+    <section>
+      <h2>Testimonios de nuestros clientes</h2>
+      <div class="testimonial-carousel">
+        <div class="testimonial">
+          <p>"Excelente servicio, los choferes muy puntuales y amables. Sin duda volveré a contratarlos."</p>
+          <strong>- Laura R.</strong>
+        </div>
+        <div class="testimonial">
+          <p>"La unidad estaba limpia y cómoda. Viajamos seguros y tranquilos en todo momento."</p>
+          <strong>- Carlos G.</strong>
+        </div>
+        <div class="testimonial">
+          <p>"Muy buena atención desde la cotización hasta el regreso. ¡Recomendados!"</p>
+          <strong>- Mariana V.</strong>
+        </div>
+        <div class="testimonial">
+          <p>"Una experiencia impecable, atención de primera desde el primer contacto."</p>
+          <strong>- Daniel S.</strong>
+        </div>
+        <div class="testimonial">
+          <p>"El mejor viaje de nuestro grupo. Sin contratiempos, todo fue perfecto."</p>
+          <strong>- Teresa M.</strong>
+        </div>
+        <div class="testimonial">
+          <p>"Agradezco mucho su flexibilidad y puntualidad. ¡Gracias Viaja Seguro!"</p>
+          <strong>- Luis F.</strong>
+        </div>
+      </div>
     </section>
   </main>
 
