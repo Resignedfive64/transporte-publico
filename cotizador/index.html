@@ -199,8 +199,8 @@ function calculateRoute() {
       }
       const distanceKm = totalDistance / 1000;
       let rate = 0;
-      if (vehicle === 'sprinter') rate = 18;
-      else if (vehicle === 'camion') rate = 28;
+      if (vehicle === 'sprinter') rate = 36;
+      else if (vehicle === 'camion') rate = 56;
       const totalKmCost = distanceKm * rate;
       const roundedKmCost = Math.round(totalKmCost / 100) * 100;
       const totalCost = roundedKmCost + dailyCost;
