@@ -150,14 +150,14 @@
       <ul>
         <li><a href="https://resignedfive64.github.io/transporte-publico/cotizador/" target="_blank">Renta de Unidades</a></li>
         <li><a href="#hoteles-grupos">Hoteles para Grupos</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
+        <li><a onclick="abrirModal()">Contacto</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
     <div class="vehicle-gallery">
-      <img src="https://resignedfive64.github.io/transporte-publico/img/unidades-exterior.png alt="Unidad principal">
+      <img src="https://resignedfive64.github.io/transporte-publico/img/unidades-exterior.png" alt="Unidad principal">
     </div>
 
     <section>
@@ -190,5 +190,113 @@
   <footer>
     &copy; 2025 Viaja Seguro. Todos los derechos reservados.
   </footer>
+
+
+
+
+
+<div id="modalContacto" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" onclick="cerrarModal()">&times;</span>
+    <h2>Solicite su Cotización</h2>
+    <form action="mailto:cotizaciones@viajaseguro.com" method="POST" enctype="text/plain" style="display: flex; flex-direction: column; gap: 1rem;">
+      <label>Nombre:<br><input type="text" name="nombre" required></label>
+      <label>Correo:<br><input type="email" name="email" required></label>
+      <label>Teléfono:<br><input type="tel" name="telefono" required></label>
+      <label>Ciudad de origen:<br><input type="text" name="origen" required></label>
+      <label>Ciudad de destino:<br><input type="text" name="destino" required></label>
+      <label>Mensaje:<br><textarea name="mensaje" rows="4"></textarea></label>
+      <div style="display: flex; gap: 1rem;">
+        <button type="submit" style="background: #0056b3; color: white;">Enviar solicitud</button>
+              </div>
+    </form>
+  </div>
+</div>
+
+<style>
+  .modal {
+    display: none; position: fixed; z-index: 1000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .modal-content {
+    background: white;
+    margin: 10% auto;
+    padding: 2rem;
+    border-radius: 10px;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+    animation: fadeIn 0.4s ease;
+    font-family: 'Segoe UI', sans-serif;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+  }
+  .modal-content h2 {
+    background-color: #0056b3;
+    color: white;
+    padding: 1rem;
+    margin: -2rem -2rem 1rem -2rem;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    font-size: 1.25rem;
+  }
+  .modal-content label {
+    font-weight: 600;
+    color: #333;
+  }
+  .modal-content input, .modal-content textarea {
+    font-size: 1rem;
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  .modal-content button {
+    border: none;
+    border-radius: 6px;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  .modal-content button[type="submit"] {
+    background-color: #0056b3;
+    color: white;
+  }
+  .modal-content button.cancel-btn {
+    background-color: #ccc;
+    color: #333;
+  }
+  .modal-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: red;
+    cursor: pointer;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0; transform: translateY(-20px);}
+    to {opacity: 1; transform: translateY(0);}
+  }
+</style>
+
+<script>
+  function abrirModal() {
+    document.getElementById('modalContacto').style.display = 'block';
+  }
+  function cerrarModal() {
+    document.getElementById('modalContacto').style.display = 'none';
+  }
+  window.onclick = function(event) {
+    const modal = document.getElementById('modalContacto');
+    if (event.target == modal) cerrarModal();
+  };
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') cerrarModal();
+  });
+</script>
+
 </body>
 </html>
